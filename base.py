@@ -1,19 +1,12 @@
 import base64
 import numpy as np
 from moviepy.editor import VideoFileClip
+from PIL import Image
 import os
 
 SAVING_FRAMES_PS = 2
 
 frames = set()
-
-
-def format_file(td, c):
-    result = str(td)
-    c += 1
-    return f"{result}{str(c)}"
-
-
 
 def main(video, folder):
     c = 1
@@ -29,8 +22,10 @@ def main(video, folder):
 
     for curr in np.arange(0, video_clip.duration, step):
 
-        filename = f"{folder}/Frame number {c}.png"
-        video_clip.save_frame(filename, curr)
+        filename = f"{folder}/Frame number {c}.jpg"
+        frame = video_clip.get_frame(curr)
+        img = Image.fromarray(frame)
+        img.save(filename)
         c += 1
 
 
